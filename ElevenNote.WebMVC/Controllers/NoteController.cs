@@ -52,7 +52,7 @@ namespace ElevenNote.WebMVC.Controllers
 
             if (service.CreateNote(model))
             {
-                /*ViewBag.SaveResult*/ 
+                /*ViewBag.SaveResult*/
                 TempData["SaveResult"] = "Your note was created.";
                 return RedirectToAction("Index");
             };
@@ -62,11 +62,19 @@ namespace ElevenNote.WebMVC.Controllers
             return View(model);
         }
 
-            private NoteService CreateNoteService()
-            {
-                var userId = Guid.Parse(User.Identity.GetUserId());
-                var service = new NoteService(userId);
-                return service;
-            }
+        public ActionResult Details(int id)
+        {
+            var svc = CreateNoteService();
+            var model = svc.GetNoteById(id);
+
+            return View(model);
+        }
+
+        private NoteService CreateNoteService()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var service = new NoteService(userId);
+            return service;
         }
     }
+}
